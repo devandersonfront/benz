@@ -1,7 +1,7 @@
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Auth from "pages/auth";
 import Dashboard from "pages/dashboard";
-import ProtedctedRoute from "components/router/ProtedctedRoute";
+import ProtedctedRoute from "components/Router/ProtedctedRoute";
 import { useCheckAuth } from "utils/checkAuth";
 import { useEffect } from "react";
 

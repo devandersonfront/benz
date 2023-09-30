@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { ReactComponent as LightLogo } from "images/svg/Light_logo.svg";
 import { colors } from "style/theme";
-import BaseCheckbox from "components/checkbox/BaseCheckbox";
+import BaseCheckbox from "components/Checkbox/Atom/BaseCheckbox";
 import { useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { authTokenAtom } from "recoil/authAtom";
@@ -9,25 +9,25 @@ import { API, authEnum } from "config/auth";
 import errorBoundary from "utils/errorBoundary";
 import axios from "instance/axios";
 import { useNavigate } from "react-router-dom";
+import { LabeledInput } from "components/Input/Atom";
 
 function Auth() {
   const [isRemember, setIsRemember] = useState(false);
-  const emailInputRef = useRef<HTMLInputElement | null>(null);
-  const passwordInputRef = useRef<HTMLInputElement | null>(null);
+  const formData = useRef<Map<string, any>>(new Map());
   const setRecoilAuthToken = useSetRecoilState(authTokenAtom);
   const navigate = useNavigate();
 
-  const onSignIn = async () => {
-    const emailValue = emailInputRef.current?.value;
-    const passwordValue = passwordInputRef.current?.value;
+  const authFetcher = async () => {
+    const response = await axios.get<AuthTokenResponse>(API.auth);
+    const token = response.data.data.token;
+    isRemember
+      ? localStorage.setItem(authEnum.authToken, token)
+      : setRecoilAuthToken(token);
+  };
 
-    const authFetcher = async () => {
-      const response = await axios.get<AuthTokenResponse>(API.auth);
-      const token = response.data.data.token;
-      isRemember
-        ? localStorage.setItem(authEnum.authToken, token)
-        : setRecoilAuthToken(token);
-    };
+  const onSignIn = async () => {
+    const emailValue = formData.current.get("email");
+    const passwordValue = formData.current.get("password");
 
     if (emailValue && passwordValue) {
       await errorBoundary(authFetcher).then(() => {
@@ -48,23 +48,23 @@ function Auth() {
         <Authentication_title>Sign In</Authentication_title>
 
         <AuthForm onSubmit={(e) => e.preventDefault()}>
-          <InputBox>
-            <Label htmlFor="email-input">Email</Label>
-            <Input
-              placeholder="email@address.com"
-              id="email-input"
-              ref={emailInputRef}
-            />
-          </InputBox>
+          <LabeledInput
+            htmlFor="email-input"
+            labelText="Email"
+            placeholder="email@address.com"
+            notifier={(value) => {
+              formData.current?.set("email", value);
+            }}
+          />
 
-          <InputBox>
-            <Label htmlFor="password-input">Password</Label>
-            <Input
-              placeholder="Password"
-              name="password-input"
-              ref={passwordInputRef}
-            />
-          </InputBox>
+          <LabeledInput
+            htmlFor="password-input"
+            labelText="Password"
+            placeholder="Password"
+            notifier={(value) => {
+              formData.current?.set("password", value);
+            }}
+          />
         </AuthForm>
 
         <OptionBox>

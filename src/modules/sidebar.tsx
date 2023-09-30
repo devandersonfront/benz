@@ -2,16 +2,16 @@ import { icons } from "./icons";
 
 export const menuList = [
   {
-    id: "dashboard",
+    id: "dashboards",
     name: "Dashboards",
     contentTitle: "",
     icon: <icons.Dashboard_Icon />,
   },
   {
-    id: "receiptions",
+    id: "receptions",
     name: "접수건",
     contentTitle: "",
-    icon: <icons.Receiptions_Icon />,
+    icon: <icons.Receptions_Icon />,
   },
   {
     id: "receptionWatings",
@@ -28,7 +28,7 @@ export const menuList = [
   {
     id: "users",
     name: "사용자 관리",
-    contentTitle: "",
+    contentTitle: "사용자 관리",
     icon: <icons.Users_Icon />,
   },
   {

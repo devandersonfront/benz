@@ -1,6 +1,6 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { MenuId, MenuName, menuList } from "modules/sidebar";
+import { menuList } from "modules/sidebar";
 import { colors } from "style/theme";
 import { icons } from "modules/icons";
 import { useRecoilState } from "recoil";

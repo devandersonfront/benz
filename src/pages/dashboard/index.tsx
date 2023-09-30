@@ -1,19 +1,31 @@
 import styled from "@emotion/styled";
-import Aside from "components/layout/Aside";
-import Header from "components/layout/Header";
-import { createContext, useContext } from "react";
+import Aside from "components/Layout/Aside";
+import Header from "components/Layout/Header";
+import { Suspense, createContext, useContext } from "react";
 import { useRecoilValue } from "recoil";
 import { currentMenuAtom } from "recoil/layoutAtom";
+import Dashboards from "./Dashboards";
+import Receptions from "./Reception";
+import ReceptionWatings from "./ReceptionWatings";
+import Centers from "./Centers";
+import Users from "./Users";
 import Projects from "./Projects";
 
 export const DashboardCTX = createContext<any>(null);
 
 function Index() {
   const currentMenu = useRecoilValue(currentMenuAtom);
-
   const contextValue = { test: "true" };
 
-  console.log(currentMenu);
+  const contentList = {
+    dashboards: <Dashboards />,
+    receptions: <Receptions />,
+    receptionWatings: <ReceptionWatings />,
+    centers: <Centers />,
+    users: <Users />,
+    projects: <Projects />,
+  };
+
   return (
     <Container>
       <Aside />
@@ -23,7 +35,9 @@ function Index() {
         <ContentBox>
           <ContentTitle>{currentMenu.contentTitle}</ContentTitle>
           <MainContent>
-            <DashboardCTX.Provider value={contextValue}></DashboardCTX.Provider>
+            <DashboardCTX.Provider value={contextValue}>
+              <>{contentList[currentMenu.id]}</>
+            </DashboardCTX.Provider>
           </MainContent>
         </ContentBox>
       </ContentSection>
@@ -65,6 +79,16 @@ const ContentTitle = styled.h1`
 
 const MainContent = styled.div`
   flex: 1;
+`;
+
+const SuspenseTest = styled.div`
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  color: blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export default Index;
