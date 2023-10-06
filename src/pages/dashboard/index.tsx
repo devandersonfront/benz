@@ -34,6 +34,7 @@ function Index() {
         <Header />
         <ContentBox>
           <ContentTitle>{currentMenu.contentTitle}</ContentTitle>
+
           <MainContent>
             <DashboardCTX.Provider value={contextValue}>
               <>{contentList[currentMenu.id]}</>
@@ -47,7 +48,8 @@ function Index() {
 
 const Container = styled.div`
   width: 100%;
-  height: 100%;
+  height: auto;
+
   background-color: ${({ theme }) => theme.backgroundColor};
   padding: 20px 23px;
   display: flex;
@@ -79,16 +81,6 @@ const ContentTitle = styled.h1`
 
 const MainContent = styled.div`
   flex: 1;
-`;
-
-const SuspenseTest = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: red;
-  color: blue;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 export default Index;

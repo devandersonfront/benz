@@ -7,12 +7,12 @@ import { colors } from "style/theme";
 interface Props {
   totalData?: number;
   countPerPage: number;
-  pagelistDisplayLimit: number;
+  pagelistDisplayLimit?: number;
   notifier?: (currentPage: number, ...args: any) => any;
 }
 type ArrowDirection = "left" | "right";
 
-function BasePagination({ totalData = 0, countPerPage, pagelistDisplayLimit, notifier }: Props) {
+function BasePagination({ totalData = 0, countPerPage, pagelistDisplayLimit = 5, notifier }: Props) {
   const BUTTON_SIZE = 32;
   const GAP = 10;
   const PAGE_WRAPPER_MINWIDTH = BUTTON_SIZE * countPerPage + (GAP * countPerPage - 1);
@@ -59,6 +59,7 @@ function BasePagination({ totalData = 0, countPerPage, pagelistDisplayLimit, not
       <PageWrapper minWidth={PAGE_WRAPPER_MINWIDTH}>
         {pageList.map((page) => (
           <PageButton
+            key={page}
             active={currentPage === page}
             size={BUTTON_SIZE}
             onClick={() => {

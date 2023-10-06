@@ -7,6 +7,9 @@ import { ReactComponent as Users_Icon } from "images/svg/users_icon.svg";
 import { ReactComponent as Projects_Icon } from "images/svg/projects_icon.svg";
 import { ReactComponent as Hamburger_Icon } from "images/svg/hamburger_icon.svg";
 import { ReactComponent as Search_Icon } from "images/svg/search_icon.svg";
+import { ReactComponent as Plus_Icon } from "images/svg/plus_icon.svg";
+import { ReactComponent as Email_Icon } from "images/svg/email_icon.svg";
+import { ReactComponent as Close_Icon } from "images/svg/close_icon.svg";
 
 export const icons = {
   Dashboard_Logo,
@@ -18,4 +21,7 @@ export const icons = {
   Projects_Icon,
   Hamburger_Icon,
   Search_Icon,
+  Plus_Icon,
+  Email_Icon,
+  Close_Icon,
 };

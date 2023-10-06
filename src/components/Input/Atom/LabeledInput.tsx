@@ -2,6 +2,14 @@ import { SerializedStyles, css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { InputHTMLAttributes, LabelHTMLAttributes } from "react";
 
+type Attributes = LabelHTMLAttributes<HTMLLabelElement> & InputHTMLAttributes<HTMLInputElement>;
+
+export interface Props extends Attributes {
+  labelText: string;
+  additionalCSS?: SerializedStyles;
+  notifier?: (value: string, ...args: any) => any;
+}
+
 function LabeledInput(props: Props) {
   return (
     <InputBox additionalCSS={props.additionalCSS}>
@@ -15,15 +23,6 @@ function LabeledInput(props: Props) {
       />
     </InputBox>
   );
-}
-
-type Attributes = LabelHTMLAttributes<HTMLLabelElement> &
-  InputHTMLAttributes<HTMLInputElement>;
-
-interface Props extends Attributes {
-  labelText: string;
-  additionalCSS?: SerializedStyles;
-  notifier?: (value: string, ...args: any) => any;
 }
 
 const InputBox = styled.div<{ additionalCSS?: SerializedStyles }>`

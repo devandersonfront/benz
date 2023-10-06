@@ -1,12 +1,13 @@
-import { css } from "@emotion/react";
+import { SerializedStyles, css } from "@emotion/react";
 import styled from "@emotion/styled";
-import React, { useState } from "react";
+import { useState } from "react";
 
 interface Props {
+  additionalCSS?: SerializedStyles;
   notifier?: (ischecked: boolean) => any;
 }
 
-function BaseCheckbox({ notifier }: Props) {
+function BaseCheckbox({ additionalCSS, notifier }: Props) {
   const [isChecked, setIsChecked] = useState(false);
   const onClick = () => {
     const updateState = !isChecked;
@@ -15,28 +16,26 @@ function BaseCheckbox({ notifier }: Props) {
   };
 
   return (
-    <CheckboxWrapper>
-      <CheckLabel
-        htmlFor="user-remember"
-        onClick={onClick}
-        isChecked={isChecked}
-      />
-      <Checkbox type="checkbox" name="user-remember" />
+    <CheckboxWrapper additionalCSS={additionalCSS}>
+      <CheckLabel htmlFor="user-remember" onClick={onClick} className={`checkbox-label ${isChecked && "isChecked"}`} />
+      <Checkbox type="checkbox" name="user-remember" className="checkbox-input" />
     </CheckboxWrapper>
   );
 }
 
-const CheckboxWrapper = styled.div`
+const CheckboxWrapper = styled.div<Pick<Props, "additionalCSS">>`
   display: flex;
   align-items: center;
   width: 24px;
   height: 24px;
   position: relative;
+
+  ${({ additionalCSS }) => additionalCSS && additionalCSS}
 `;
 const Checkbox = styled.input`
   appearance: none;
 `;
-const CheckLabel = styled.label<{ isChecked: boolean }>`
+const CheckLabel = styled.label`
   display: flex;
   width: 100%;
   height: 100%;
@@ -46,18 +45,17 @@ const CheckLabel = styled.label<{ isChecked: boolean }>`
   top: 0;
   left: 0;
   cursor: pointer;
+  overflow: hidden;
 
-  ${({ isChecked }) =>
-    isChecked &&
-    css`
-      &::after {
-        content: "✔";
-        width: 30px;
-        height: 30px;
-        font-size: 20px;
-        text-align: center;
-      }
-    `}
+  &.isChecked {
+    &::after {
+      content: "✔";
+      width: 100%;
+      height: 100%;
+      font-size: 20px;
+      text-align: center;
+    }
+  }
 `;
 
 export default BaseCheckbox;

@@ -20,16 +20,15 @@ function Auth() {
   const authFetcher = async () => {
     const response = await axios.get<AuthTokenResponse>(API.auth);
     const token = response.data.data.token;
-    isRemember
-      ? localStorage.setItem(authEnum.authToken, token)
-      : setRecoilAuthToken(token);
+    isRemember ? localStorage.setItem(authEnum.authToken, token) : setRecoilAuthToken(token);
   };
 
   const onSignIn = async () => {
     const emailValue = formData.current.get("email");
     const passwordValue = formData.current.get("password");
+    const validate = emailValue && passwordValue;
 
-    if (emailValue && passwordValue) {
+    if (validate) {
       await errorBoundary(authFetcher).then(() => {
         navigate("/dashboard");
       });
@@ -116,7 +115,7 @@ const LogoBox = styled.div`
 const Ellipse = styled.div`
   width: 3000px;
   height: 1200px;
-  background: #1d232c;
+  background: ${colors.indigo};
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 70%;
   border: 1px black solid;

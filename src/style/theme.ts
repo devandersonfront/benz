@@ -18,9 +18,10 @@ export const colors = {
   pointColorCarrot: "#ff5248",
   pointColorBrown: "#E1AD49",
   pointColorMint: "#19cdca",
+  pointColorLightblue: "#319dff",
   pointColorBlue: "#0077E4",
   pointColorPastelBlue: "#4165c8bf",
-  pointColorGreen: "#6ddb00",
+  pointColorGreen: "#0DA678",
   pointColorGrapefruit: "#d55b10bf",
   pointColorBluegrey: "#162d6cbf",
   lightblue: "#C5E2EE",
@@ -34,11 +35,7 @@ export const colors = {
 
 export const gradients = {
   pointGraidentBlue: css`
-    background: linear-gradient(
-      to right,
-      ${colors.pointColorBlue},
-      ${colors.pointColorMint}
-    );
+    background: linear-gradient(to right, ${colors.pointColorBlue}, ${colors.pointColorMint});
   `,
 } as const;
 
@@ -123,11 +120,9 @@ export const themeMode = (mode: ModeType) => {
   const modeCSS = {
     backgroundColor: mode === "white" ? "white" : colors.darkNavy,
     fontColor: mode === "white" ? colors.black : colors.white,
-    pointColor:
-      mode === "white" ? colors.pointColorBlue : colors.pointColorYellow,
+    pointColor: mode === "white" ? colors.pointColorBlue : colors.pointColorYellow,
     subPointColor: mode === "white" ? colors.pointColorGray : colors.beige,
-    linkColor:
-      mode === "white" ? colors.pointColorPastelBlue : colors.pointColorMint,
+    linkColor: mode === "white" ? colors.pointColorPastelBlue : colors.pointColorMint,
   } as const;
 
   return {

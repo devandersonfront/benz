@@ -38,7 +38,8 @@ function Index() {
 
 const Aside = styled.aside`
   width: 208px;
-  height: 100%;
+  height: auto;
+  min-height: 100vh;
   background-color: ${colors.indigo};
 
   padding: 20px 16px 0px;
