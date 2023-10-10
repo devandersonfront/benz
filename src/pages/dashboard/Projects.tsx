@@ -2,7 +2,6 @@ import React, { useContext, useRef } from "react";
 import { DashboardCTX } from ".";
 import styled from "@emotion/styled";
 import { LabeledInput } from "components/Input/Atom";
-import { Props as LabeledInpuProps } from "components/Input/Atom/LabeledInput";
 import { BaseCheckbox } from "components/Checkbox/Atom";
 import { css } from "@emotion/react";
 import { colors } from "style/theme";
@@ -10,14 +9,21 @@ import { colors } from "style/theme";
 function Projects() {
   const dashboardCTX = useContext(DashboardCTX);
   const inputFormdata = useRef<Map<string, any>>(new Map());
+  const repairCheckFormdata = useRef<Set<string>>(new Set());
+  const messageCheckFormdata = useRef<Set<string>>(new Set());
 
   const repairChecklist = {
     label: "수리 단계 사용",
     list: ["입고", "정비", "탈거", "판금", "도장", "조립", "출고"],
   };
+
   const messageChecklist = {
     label: "메세지 전송 사용",
     list: [...repairChecklist.list],
+  };
+
+  const onSave = () => {
+    console.log(repairCheckFormdata, messageCheckFormdata);
   };
 
   return (
@@ -48,24 +54,24 @@ function Projects() {
       <Checkbox>
         <ul className="checkpart repair-part">
           <label>{repairChecklist.label}</label>
-          {repairChecklist.list.map((name) => (
+          {repairChecklist.list.map((key) => (
             <li>
-              {BlueCheckbox()}
-              <span>{name}</span>
+              {BlueCheckbox(key, repairCheckFormdata.current)}
+              <span>{key}</span>
             </li>
           ))}
         </ul>
         <ul className="checkpart message-part">
           <label>{messageChecklist.label}</label>
-          {messageChecklist.list.map((name) => (
+          {messageChecklist.list.map((key) => (
             <li>
-              {BlueCheckbox()}
-              <span>{name}</span>
+              {BlueCheckbox(key, messageCheckFormdata.current)}
+              <span>{key}</span>
             </li>
           ))}
         </ul>
       </Checkbox>
-      <SaveButton>저장</SaveButton>
+      <SaveButton onClick={onSave}>저장</SaveButton>
     </>
   );
 }
@@ -110,7 +116,7 @@ const Checkbox = styled.div`
   }
 `;
 
-const BlueCheckbox = (key?: string) => (
+const BlueCheckbox = (key?: string, formdata?: Set<string>) => (
   <BaseCheckbox
     additionalCSS={css`
       width: 24px;
@@ -128,12 +134,14 @@ const BlueCheckbox = (key?: string) => (
         }
       }
     `}
-    notifier={(value) => console.log(value)}
+    notifier={(_) => {
+      key && formdata?.add(key);
+    }}
   />
 );
 
 const SaveButton = styled.button`
-  margin-top: 72px;
+  margin-top: 42px;
   margin-bottom: 162px;
   width: 100%;
   height: 40px;

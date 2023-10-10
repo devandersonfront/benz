@@ -13,7 +13,7 @@ export const colors = {
   graySix: "#586a84",
   pointColorBlack: "#161B21",
   pointColorGray: "#3B4758",
-  pointColorPurple: "#ad8bf6",
+  pointColorPurple: "#B142F5",
   pointColorYellow: "#ffc114",
   pointColorCarrot: "#ff5248",
   pointColorBrown: "#E1AD49",

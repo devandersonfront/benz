@@ -4,7 +4,7 @@ export const menuList = [
   {
     id: "dashboards",
     name: "Dashboards",
-    contentTitle: "",
+    contentTitle: "작업장 전체 현황",
     icon: <icons.Dashboard_Icon />,
   },
   {

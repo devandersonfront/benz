@@ -10,6 +10,10 @@ import { ReactComponent as Search_Icon } from "images/svg/search_icon.svg";
 import { ReactComponent as Plus_Icon } from "images/svg/plus_icon.svg";
 import { ReactComponent as Email_Icon } from "images/svg/email_icon.svg";
 import { ReactComponent as Close_Icon } from "images/svg/close_icon.svg";
+import { ReactComponent as Arrowdown_Icon } from "images/svg/arrowdown_icon.svg";
+import { ReactComponent as Eye_Icon } from "images/svg/eye_icon.svg";
+import { ReactComponent as Pencil_Icon } from "images/svg/pencil_icon.svg";
+import { ReactComponent as Trash_Icon } from "images/svg/trash_icon.svg";
 
 export const icons = {
   Dashboard_Logo,
@@ -24,4 +28,8 @@ export const icons = {
   Plus_Icon,
   Email_Icon,
   Close_Icon,
+  Arrowdown_Icon,
+  Eye_Icon,
+  Pencil_Icon,
+  Trash_Icon,
 };
