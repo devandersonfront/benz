@@ -23,6 +23,7 @@ const ModalContainer = styled.section<Pick<Props, "isOpen">>`
   display: ${({ isOpen }) => (isOpen ? "flex" : "none")};
   align-items: center;
   justify-content: center;
+  z-index: var(--zIndex-0st);
 `;
 
 const Overlay = styled.div`
@@ -35,9 +36,8 @@ const Overlay = styled.div`
 
 const ContentBox = styled.div`
   max-width: 480px;
-  max-height: 466px;
   width: 100%;
-  height: 100%;
+  height: auto;
   background-color: ${colors.indigo};
   box-shadow: 0px 4px 20px rgba(170, 169, 184, 0.1);
   border-radius: 12px;

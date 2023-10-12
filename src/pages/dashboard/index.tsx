@@ -20,8 +20,8 @@ function Index() {
   const contentList = {
     dashboards: <Dashboards />,
     receptions: <Receptions />,
-    receptionWatings: <ReceptionWatings />,
-    centers: <Centers />,
+    // receptionWatings: <ReceptionWatings />,
+    // centers: <Centers />,
     users: <Users />,
     projects: <Projects />,
   };

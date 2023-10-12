@@ -10,21 +10,21 @@ export const menuList = [
   {
     id: "receptions",
     name: "접수건",
-    contentTitle: "",
+    contentTitle: "접수건 관리",
     icon: <icons.Receptions_Icon />,
   },
-  {
-    id: "receptionWatings",
-    name: "접수 대기 분석",
-    contentTitle: "",
-    icon: <icons.ReceptionWatings_Icon />,
-  },
-  {
-    id: "centers",
-    name: "워크센터별 분석",
-    contentTitle: "",
-    icon: <icons.Centers_Icon />,
-  },
+  // {
+  //   id: "receptionWatings",
+  //   name: "접수 대기 분석",
+  //   contentTitle: "",
+  //   icon: <icons.ReceptionWatings_Icon />,
+  // },
+  // {
+  //   id: "centers",
+  //   name: "워크센터별 분석",
+  //   contentTitle: "",
+  //   icon: <icons.Centers_Icon />,
+  // },
   {
     id: "users",
     name: "사용자 관리",

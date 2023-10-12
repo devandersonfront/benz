@@ -16,5 +16,3 @@ export const currentMenuAtom = atom<CurrentMenu>({
     contentTitle: menuList[0].contentTitle,
   },
 });
-
-//Header

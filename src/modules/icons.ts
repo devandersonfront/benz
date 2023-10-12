@@ -14,6 +14,9 @@ import { ReactComponent as Arrowdown_Icon } from "images/svg/arrowdown_icon.svg"
 import { ReactComponent as Eye_Icon } from "images/svg/eye_icon.svg";
 import { ReactComponent as Pencil_Icon } from "images/svg/pencil_icon.svg";
 import { ReactComponent as Trash_Icon } from "images/svg/trash_icon.svg";
+import { ReactComponent as Dot_Icon } from "images/svg/dot_icon.svg";
+import { ReactComponent as Increment_Icon } from "images/svg/increment_icon.svg";
+import { ReactComponent as Print_Icon } from "images/svg/print_icon.svg";
 
 export const icons = {
   Dashboard_Logo,
@@ -32,4 +35,7 @@ export const icons = {
   Eye_Icon,
   Pencil_Icon,
   Trash_Icon,
+  Dot_Icon,
+  Increment_Icon,
+  Print_Icon,
 };

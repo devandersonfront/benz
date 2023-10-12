@@ -18,7 +18,7 @@ import { colors } from "style/theme";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Filler, Tooltip);
 
-function Dashboards() {
+function LineChart() {
   const options = {
     responsive: false,
     maintainAspectRatio: false,
@@ -69,52 +69,27 @@ function Dashboards() {
   const [selectedDateFilter, setSelectedDateFilter] = useState(chartDateFilterlist[0].key);
 
   return (
-    <ContentContainer>
-      <WorkstepAndLineWrapper>
-        <WorkstepBox></WorkstepBox>
-        <LineChartBox>
-          <LineChartHeader>
-            <h3>총 접수건</h3>
+    <LineChartBox>
+      <LineChartHeader>
+        <h3>총 접수건</h3>
 
-            <fieldset>
-              {chartDateFilterlist.map(({ key, label }) => (
-                <button
-                  className={key === selectedDateFilter ? "active" : ""}
-                  onClick={() => {
-                    setSelectedDateFilter(key);
-                  }}
-                >
-                  {label}
-                </button>
-              ))}
-            </fieldset>
-          </LineChartHeader>
-          <Line options={options} data={data} width={976} height={268} />
-        </LineChartBox>
-      </WorkstepAndLineWrapper>
-
-      <ProgressByCenterBox></ProgressByCenterBox>
-    </ContentContainer>
+        <fieldset>
+          {chartDateFilterlist.map(({ key, label }) => (
+            <button
+              className={key === selectedDateFilter ? "active" : ""}
+              onClick={() => {
+                setSelectedDateFilter(key);
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </fieldset>
+      </LineChartHeader>
+      <Line options={options} data={data} width={976} height={268} />
+    </LineChartBox>
   );
 }
-
-const ContentContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const WorkstepAndLineWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const WorkstepBox = styled.div`
-  width: 500px;
-  min-height: 202px;
-  height: auto;
-
-  padding: 12px;
-`;
 
 const LineChartBox = styled.div`
   width: 1000px;
@@ -166,10 +141,4 @@ const Line = styled(BaseLine)`
   margin-top: 44px;
 `;
 
-const ProgressByCenterBox = styled.div`
-  width: 100%;
-  height: auto;
-  margin-top: 20px;
-`;
-
-export default Dashboards;
+export default LineChart;

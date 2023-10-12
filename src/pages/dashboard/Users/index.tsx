@@ -7,15 +7,19 @@ import { icons } from "modules/icons";
 import { css } from "@emotion/react";
 import { useState } from "react";
 
+import RegisterModal from "./RegisterModal";
+import UsersTable from "./UsersTable";
+
 function Users() {
   const orderFilterList = [5, 10, 15];
-  const [orders, setOrders] = useState(5);
+  const [orders, setOrders] = useState(orderFilterList[0]);
   const [orderFilterOpen, setOrderFilterOpen] = useState(false);
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
   return (
     <Container>
       <RegisterBtnBox>
-        <BaseButton>
+        <BaseButton onClick={() => setIsRegisterOpen(true)}>
           신규 등록 <icons.Plus_Icon />
         </BaseButton>
       </RegisterBtnBox>
@@ -41,7 +45,7 @@ function Users() {
       </FilterBox>
 
       <TableBox>
-        <BaseTable />
+        <UsersTable />
       </TableBox>
 
       <PaginationBox>
@@ -53,6 +57,8 @@ function Users() {
           }}
         />
       </PaginationBox>
+
+      <RegisterModal isOpen={isRegisterOpen} setIsOpen={setIsRegisterOpen} />
     </Container>
   );
 }
