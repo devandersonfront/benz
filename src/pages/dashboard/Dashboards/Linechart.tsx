@@ -76,6 +76,7 @@ function LineChart() {
         <fieldset>
           {chartDateFilterlist.map(({ key, label }) => (
             <button
+              key={label}
               className={key === selectedDateFilter ? "active" : ""}
               onClick={() => {
                 setSelectedDateFilter(key);

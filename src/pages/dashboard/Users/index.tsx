@@ -8,13 +8,16 @@ import { css } from "@emotion/react";
 import { useState } from "react";
 
 import RegisterModal from "./RegisterModal";
-import UsersTable from "./UsersTable";
+import useUsersTable from "./UsersTable";
 
 function Users() {
   const orderFilterList = [5, 10, 15];
   const [orders, setOrders] = useState(orderFilterList[0]);
-  const [orderFilterOpen, setOrderFilterOpen] = useState(false);
+  const [isOrderfilterOpen, setIsOrderfilterOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const { selectedRows, Table: UserTable } = useUsersTable(orders, currentPage);
 
   return (
     <Container>
@@ -25,15 +28,23 @@ function Users() {
       </RegisterBtnBox>
 
       <FilterBox>
-        <BaseButton additionalCSS={DisplayFilterBtnCSS} onClick={() => setOrderFilterOpen((prev) => !prev)}>
+        <BaseButton additionalCSS={DisplayFilterBtnCSS} onClick={() => setIsOrderfilterOpen((prev) => !prev)}>
           <p>
             Display <span>{orders} orders</span>
           </p>
           <icons.Arrowdown_Icon />
 
-          <OrderDropdown isOpen={orderFilterOpen} onClick={(e) => e.stopPropagation()}>
-            {orderFilterList.map((list) => (
-              <OrderList key={list}>{list} orders</OrderList>
+          <OrderDropdown isOpen={isOrderfilterOpen} onClick={(e) => e.stopPropagation()}>
+            {orderFilterList.map((value) => (
+              <OrderList
+                key={value}
+                onClick={() => {
+                  setOrders(value);
+                  setIsOrderfilterOpen(false);
+                }}
+              >
+                {value} orders
+              </OrderList>
             ))}
           </OrderDropdown>
         </BaseButton>
@@ -45,15 +56,15 @@ function Users() {
       </FilterBox>
 
       <TableBox>
-        <UsersTable />
+        <UserTable />
       </TableBox>
 
       <PaginationBox>
         <Pagenation
           totalData={38}
           countPerPage={5}
-          notifier={(currentPage) => {
-            console.log("현재 페이지가 뭔지 알려드립니다", currentPage);
+          notifier={(_currentPage) => {
+            setCurrentPage(_currentPage);
           }}
         />
       </PaginationBox>

@@ -26,13 +26,13 @@ function ProgressByCenter() {
 
       <ProgressBox>
         {data.map((e) => (
-          <LabeledProgress label={e.workbay} value={e.percentage} />
+          <LabeledProgress key={e.workbay} label={e.workbay} value={e.percentage} />
         ))}
         <ProgressGage>
           <div className="spacer" />
           <div className="gage">
             {gageParameter.map((gage) => (
-              <div className="parameter">
+              <div className="parameter" key={gage}>
                 <span>╷</span>
                 <span>{`${gage}%`}</span>
               </div>

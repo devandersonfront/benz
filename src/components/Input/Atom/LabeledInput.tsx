@@ -1,29 +1,43 @@
 import { SerializedStyles, css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { InputHTMLAttributes, LabelHTMLAttributes } from "react";
+import { InputHTMLAttributes, LabelHTMLAttributes, forwardRef, useEffect, useRef, useState } from "react";
 
 type Attributes = LabelHTMLAttributes<HTMLLabelElement> & InputHTMLAttributes<HTMLInputElement>;
 
 export interface Props extends Attributes {
+  initialValue?: string | number;
   labelText: string;
+  isFirstInput?: boolean;
   additionalCSS?: SerializedStyles;
   notifier?: (value: string, ...args: any) => any;
 }
 
-function LabeledInput(props: Props) {
+const LabeledInput = (props: Props) => {
+  const [value, setValue] = useState(props.initialValue ?? "");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useEffect(() => {
+    if (props.isFirstInput) {
+      inputRef.current?.focus();
+    }
+  }, []);
+
   return (
     <InputBox additionalCSS={props.additionalCSS}>
       <Label htmlFor={props.htmlFor}>{props.labelText}</Label>
       <Input
+        value={value}
+        ref={inputRef}
         placeholder={props.placeholder}
         id={props.htmlFor}
         onChange={(e) => {
-          props.notifier && props.notifier(e.target.value);
+          const _value = e.target.value;
+          setValue(_value);
+          props.notifier && props.notifier(_value);
         }}
       />
     </InputBox>
   );
-}
+};
 
 const InputBox = styled.div<{ additionalCSS?: SerializedStyles }>`
   ${({ additionalCSS }) => additionalCSS && additionalCSS}

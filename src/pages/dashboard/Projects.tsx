@@ -30,6 +30,7 @@ function Projects() {
     <>
       <InputBox>
         <LabeledInput
+          isFirstInput
           htmlFor="center-name"
           labelText="센터명"
           notifier={(value) => {

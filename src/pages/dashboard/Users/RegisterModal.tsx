@@ -4,8 +4,9 @@ import { LabeledInput } from "components/Input/Atom";
 import { BaseModal } from "components/Modal/Atom";
 import ModalPortal from "components/ModalPortal";
 import LabeledTextarea from "components/Textarea/Atom/LabeledTextarea";
+import { useAddECSCommand } from "hook/useAddECSCommand";
 import { icons } from "modules/icons";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { colors } from "style/theme";
 
 const RegisterModal = ({
@@ -20,7 +21,9 @@ const RegisterModal = ({
 
   const onSubmit = () => {};
 
-  return (
+  useAddECSCommand(() => setIsOpen(false));
+
+  return isOpen ? (
     <ModalPortal>
       <BaseModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
         <ModalContentWrapper>
@@ -36,6 +39,7 @@ const RegisterModal = ({
 
           <ModalFiledset>
             <LabeledInput
+              isFirstInput
               htmlFor="username"
               labelText="사용자명"
               notifier={(value) => {
@@ -99,6 +103,8 @@ const RegisterModal = ({
         </ModalContentWrapper>
       </BaseModal>
     </ModalPortal>
+  ) : (
+    <></>
   );
 };
 

@@ -8,16 +8,19 @@ import { useState } from "react";
 
 import RegisterModal from "./RegisterModal";
 import QRModal from "./QRModal";
-import ReceptionTable from "./ReceptionTable";
+import useReceptionTable from "./ReceptionTable";
 
 function Reception() {
+  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
+  const [isQROpen, setIsQROpen] = useState(false);
+  const onHandleMessage = () => {};
+
   const orderFilterList = [5, 10, 15];
   const [orders, setOrders] = useState(orderFilterList[0]);
   const [isOrderfilterOpen, setIsOrderfilterOpen] = useState(false);
-  const [isRegisterOpen, setIsRegisterOpen] = useState(false);
-  const [isQROpen, setIsQROpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
 
-  const onHandleMessage = () => {};
+  const { selectedRows, Table: ReceptionTable } = useReceptionTable(orders, currentPage);
 
   return (
     <Container>
@@ -69,14 +72,14 @@ function Reception() {
         <Pagenation
           totalData={38}
           countPerPage={5}
-          notifier={(currentPage) => {
-            console.log("현재 페이지가 뭔지 알려드립니다", currentPage);
+          notifier={(_currentPage) => {
+            setCurrentPage(_currentPage);
           }}
         />
       </PaginationBox>
 
       <RegisterModal isOpen={isRegisterOpen} setIsOpen={setIsRegisterOpen} />
-      <QRModal isOpen={isQROpen} setIsOpen={setIsQROpen} />
+      <QRModal isOpen={isQROpen} setIsOpen={setIsQROpen} selectedRows={selectedRows} />
     </Container>
   );
 }

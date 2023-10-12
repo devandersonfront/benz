@@ -1,16 +1,21 @@
 import styled from "@emotion/styled";
 import { BaseModal } from "components/Modal/Atom";
 import ModalPortal from "components/ModalPortal";
+import { useAddECSCommand } from "hook/useAddECSCommand";
 import { icons } from "modules/icons";
 import { colors } from "style/theme";
 
 const QRModal = ({
   isOpen,
   setIsOpen,
+  selectedRows,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  selectedRows: ReadonlySet<any>;
 }) => {
+  useAddECSCommand(() => setIsOpen(false));
+
   return (
     <ModalPortal>
       <BaseModal isOpen={isOpen} onClose={() => setIsOpen(false)}>

@@ -4,27 +4,31 @@ import { icons } from "modules/icons";
 import { SelectColumn } from "react-data-grid";
 import type { Column } from "react-data-grid";
 import { css } from "@emotion/css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-function UsersTable() {
+function ReceptionTable(orders: number = 5, page: number = 1) {
   interface Row {
     id: number;
-    task: string;
-    complete: number;
-    priority: string;
-    issueType: string;
+    order: string;
+    userNumber: number;
+    userid: string;
+    position: string;
+    department: string;
+    options: "";
   }
 
   function createRows(): readonly Row[] {
     const rows: Row[] = [];
 
-    for (let i = 1; i < 7; i++) {
+    for (let i = 1; i < orders; i++) {
       rows.push({
         id: i,
-        task: `Task ${i}`,
-        complete: Math.min(100, Math.round(Math.random() * 110)),
-        priority: ["Critical", "High", "Medium", "Low"][Math.round(Math.random() * 3)],
-        issueType: ["Bug", "Improvement", "Epic", "Story"][Math.round(Math.random() * 3)],
+        order: Date.now().toLocaleString(),
+        userNumber: 232323,
+        userid: "userid" + i,
+        position: "position" + i,
+        department: "department" + i,
+        options: "",
       });
     }
 
@@ -50,10 +54,9 @@ function UsersTable() {
       `,
     },
     {
-      key: "id",
-      name: "ID",
+      key: "order",
+      name: "order",
       resizable: true,
-
       cellClass: css`
         color: #dde1e8;
         font-size: 14px;
@@ -63,42 +66,43 @@ function UsersTable() {
       `,
     },
     {
-      key: "task",
-      name: "Title",
-      // renderEditCell: TextEditor,
+      key: "userNumber",
+      name: "사번",
       sortable: true,
       resizable: true,
-
       formatter: (props) => {
-        console.log(props);
         return <>hello</>;
       },
     },
     {
-      key: "priority",
-      name: "Priority",
+      key: "userid",
+      name: "아이디",
       sortable: true,
       resizable: true,
     },
     {
-      key: "issueType",
-      name: "Issue Type",
+      key: "position",
+      name: "포지션",
       sortable: true,
       resizable: true,
     },
     {
-      key: "complete",
-      name: "% Complete",
+      key: "department",
+      name: "소속",
       sortable: true,
       resizable: true,
-
+    },
+    {
+      key: "options",
+      name: "options",
+      sortable: true,
+      resizable: true,
       headerCellClass: css`
         justify-content: flex-end;
       `,
       cellClass: css`
         justify-content: flex-end;
       `,
-
       formatter(props) {
         return (
           <OptionBox>
@@ -120,8 +124,21 @@ function UsersTable() {
   ];
 
   const [rows, setRows] = useState(createRows);
+  const [selectedRows, setSelectedRows] = useState((): ReadonlySet<any> => new Set());
 
-  return <BaseTable columns={columns} rows={rows} />;
+  return {
+    selectedRows,
+    Table: () => (
+      <BaseTable
+        columns={columns}
+        rows={rows}
+        rowKeyGetter={(row: Row) => row.id}
+        onRowsChange={setRows}
+        selectedRows={selectedRows}
+        onSelectedRowsChange={setSelectedRows}
+      />
+    ),
+  };
 }
 
 const OptionBox = styled.fieldset`
@@ -137,4 +154,4 @@ const OptionBtn = styled.button`
   justify-content: center;
 `;
 
-export default UsersTable;
+export default ReceptionTable;

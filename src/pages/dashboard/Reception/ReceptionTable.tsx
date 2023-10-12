@@ -2,33 +2,43 @@ import styled from "@emotion/styled";
 import { BaseTable } from "components/Table/Atom";
 import { icons } from "modules/icons";
 import { SelectColumn } from "react-data-grid";
-import type { Column } from "react-data-grid";
+import type { Column, FormatterProps } from "react-data-grid";
 import { css } from "@emotion/css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import EditModal from "./EditModal";
 
-function ReceptionTable() {
-  interface Row {
-    inboundDate: string;
-    carNumber: number;
-    vin: string;
-    manager: string;
-    progressState: string;
-    deliveryState: string;
-    options: "";
-  }
-
+export interface Row {
+  id: number;
+  inboundDate: string;
+  carNumber: number;
+  vin: string;
+  modelName: string;
+  manager: string;
+  progressState: string;
+  deliveryState: string;
+  clientName: string;
+  phoneNumber: string;
+  note: string;
+  options: null;
+}
+function ReceptionTable(orders: number = 5, page: number = 1) {
   function createRows(): readonly Row[] {
     const rows: Row[] = [];
 
-    for (let i = 1; i < 7; i++) {
+    for (let i = 1; i < orders; i++) {
       rows.push({
+        id: i,
         inboundDate: Date.now().toLocaleString(),
         carNumber: 232323,
         vin: "vin" + i,
+        modelName: "modelname" + i,
         manager: "manager" + i,
         progressState: "progressState",
+        clientName: "김또띠",
+        phoneNumber: "0102123123",
         deliveryState: "deliveryState",
-        options: "",
+        note: "여러 이유로 수정",
+        options: null,
       });
     }
 
@@ -70,10 +80,9 @@ function ReceptionTable() {
       name: "차량번호",
       sortable: true,
       resizable: true,
-      formatter: (props) => {
-        console.log(props);
-        return <>hello</>;
-      },
+      //   formatter: (props) => {
+      //     return <></>;
+      //   },
     },
     {
       key: "vin",
@@ -116,30 +125,57 @@ function ReceptionTable() {
       cellClass: css`
         justify-content: flex-end;
       `,
-      formatter(props) {
-        return (
-          <OptionBox>
-            <OptionBtn>
-              <icons.Eye_Icon />
-            </OptionBtn>
-
-            <OptionBtn>
-              <icons.Pencil_Icon />
-            </OptionBtn>
-
-            <OptionBtn>
-              <icons.Trash_Icon />
-            </OptionBtn>
-          </OptionBox>
-        );
-      },
+      formatter: OptionFormatter,
     },
   ];
 
   const [rows, setRows] = useState(createRows);
+  const [selectedRows, setSelectedRows] = useState((): ReadonlySet<any> => new Set());
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
-  return <BaseTable columns={columns} rows={rows} />;
+  return {
+    selectedRows,
+    Table: () => (
+      <>
+        <BaseTable
+          columns={columns}
+          rows={rows}
+          rowKeyGetter={(row: Row) => row.id}
+          onRowsChange={setRows}
+          selectedRows={selectedRows}
+          onSelectedRowsChange={setSelectedRows}
+        />
+      </>
+    ),
+  };
 }
+
+const OptionFormatter = (formatterProps: FormatterProps<Row, unknown>) => {
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+
+  return (
+    <>
+      <OptionBox>
+        <OptionBtn>
+          <icons.Eye_Icon />
+        </OptionBtn>
+
+        <OptionBtn
+          onClick={() => {
+            setIsEditModalOpen(true);
+          }}
+        >
+          <icons.Pencil_Icon />
+        </OptionBtn>
+
+        <OptionBtn>
+          <icons.Trash_Icon />
+        </OptionBtn>
+      </OptionBox>
+      <EditModal isOpen={isEditModalOpen} setIsOpen={setIsEditModalOpen} formatterProps={formatterProps} />
+    </>
+  );
+};
 
 const OptionBox = styled.fieldset`
   display: flex;

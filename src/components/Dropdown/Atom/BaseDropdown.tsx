@@ -1,20 +1,25 @@
 import { css, SerializedStyles } from "@emotion/react";
 import styled from "@emotion/styled";
 import { BaseButton } from "components/Button/Atom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { colors } from "style/theme";
 import { icons } from "modules/icons";
 
 interface Props {
+  initialValue?: string | number;
   labelText: string;
   filterList: string[];
   additionalCSS: SerializedStyles;
   notifier: (...args: any) => any;
 }
 
-function BaseDropdown({ labelText, additionalCSS, filterList, notifier }: Partial<Props>) {
+function BaseDropdown({ initialValue, labelText, additionalCSS, filterList, notifier }: Partial<Props>) {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [selectedValue, setSelectedValue] = useState(filterList ? filterList[0] : "");
+  const [selectedValue, setSelectedValue] = useState(initialValue ? initialValue : filterList ? filterList[0] : "");
+
+  useEffect(() => {
+    notifier && notifier(selectedValue);
+  }, []);
 
   return (
     <Container>

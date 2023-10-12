@@ -1,24 +1,30 @@
 import { SerializedStyles, css } from "@emotion/react";
 import styled from "@emotion/styled";
-import { LabelHTMLAttributes, TextareaHTMLAttributes } from "react";
+import { LabelHTMLAttributes, TextareaHTMLAttributes, useState } from "react";
 
 type Attributes = LabelHTMLAttributes<HTMLLabelElement> & TextareaHTMLAttributes<HTMLTextAreaElement>;
 
 export interface Props extends Attributes {
+  initialValue?: string;
   labelText: string;
   additionalCSS?: SerializedStyles;
   notifier?: (value: string, ...args: any) => any;
 }
 
 function LabeledTextarea(props: Props) {
+  const [value, setValue] = useState(props.initialValue ? props.initialValue : "");
+
   return (
     <InputBox additionalCSS={props.additionalCSS}>
       <Label htmlFor={props.htmlFor}>{props.labelText}</Label>
       <Textarea
+        value={value}
         placeholder={props.placeholder}
         id={props.htmlFor}
         onChange={(e) => {
-          props.notifier && props.notifier(e.target.value);
+          const _value = e.target.value;
+          setValue(_value);
+          props.notifier && props.notifier(_value);
         }}
       />
     </InputBox>

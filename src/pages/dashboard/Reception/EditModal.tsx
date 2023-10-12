@@ -8,23 +8,41 @@ import LabeledTextarea from "components/Textarea/Atom/LabeledTextarea";
 import { useAddECSCommand } from "hook/useAddECSCommand";
 import { icons } from "modules/icons";
 import { useEffect, useRef } from "react";
+import { FormatterProps } from "react-data-grid";
 import { colors } from "style/theme";
+import { Row } from "./ReceptionTable";
 
-const RegisterModal = ({
+const EditModal = ({
   isOpen,
   setIsOpen,
+  formatterProps: { row, onRowChange },
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  formatterProps: FormatterProps<Row, unknown>;
 }) => {
   const formData = useRef<Map<string, any>>(new Map());
   const modelFilterlist = ["E 300", "E 600", "E 900"];
+  const progressStateFilterlist = ["접수완료", "진행중", "출고대기", "출고"];
 
   useAddECSCommand(() => {
     setIsOpen(false);
   });
 
-  const onSubmit = () => {};
+  const onSubmit = () => {
+    const updatedRow = { ...row, ...Object.fromEntries(formData.current?.entries()) };
+    const isEmptyExist = Object.values(updatedRow).some((e) => e === undefined || e === "");
+
+    const onReject = () => {
+      alert("업데이트 못한다!");
+    };
+
+    const onConfirm = () => {
+      onRowChange(updatedRow);
+    };
+
+    isEmptyExist ? onReject() : onConfirm();
+  };
 
   return isOpen ? (
     <ModalPortal>
@@ -42,23 +60,26 @@ const RegisterModal = ({
 
           <ModalFiledset>
             <LabeledInput
+              initialValue={row.carNumber}
               isFirstInput
               htmlFor="carNumber"
               labelText="차량번호"
               notifier={(value) => {
-                formData.current?.set("carnumber", value);
+                formData.current?.set("carNumber", value);
               }}
             />
 
             <BaseDropdown
+              initialValue={row.modelName}
               labelText="모델"
               filterList={modelFilterlist}
               notifier={(value) => {
-                formData.current?.set("position", value);
+                formData.current?.set("modelName", value);
               }}
             />
 
             <LabeledInput
+              initialValue={row.vin}
               htmlFor="vin"
               labelText="VIN"
               notifier={(value) => {
@@ -66,8 +87,18 @@ const RegisterModal = ({
               }}
             />
 
+            <BaseDropdown
+              initialValue={row.progressState}
+              labelText="상태"
+              filterList={progressStateFilterlist}
+              notifier={(value) => {
+                formData.current?.set("progressState", value);
+              }}
+            />
+
             <ClientInfoBox>
               <LabeledInput
+                initialValue={row.clientName}
                 htmlFor="clientname"
                 labelText="고객명"
                 additionalCSS={css`
@@ -77,7 +108,9 @@ const RegisterModal = ({
                   formData.current?.set("clientname", value);
                 }}
               />
+
               <LabeledInput
+                initialValue={row.phoneNumber}
                 htmlFor="phonenumber"
                 labelText="전화번호"
                 additionalCSS={css`
@@ -90,6 +123,7 @@ const RegisterModal = ({
             </ClientInfoBox>
 
             <LabeledTextarea
+              initialValue={row.note}
               htmlFor="note"
               labelText="비고"
               placeholder="Type event details"
@@ -113,7 +147,7 @@ const RegisterModal = ({
   );
 };
 
-export default RegisterModal;
+export default EditModal;
 
 const ModalContentWrapper = styled.div`
   width: 100%;
