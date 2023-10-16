@@ -27,22 +27,17 @@ function Index() {
   };
 
   return (
-    <Container>
-      <Aside />
+    <>
+      <ContentBox>
+        <ContentTitle>{currentMenu.contentTitle}</ContentTitle>
 
-      <ContentSection>
-        <Header />
-        <ContentBox>
-          <ContentTitle>{currentMenu.contentTitle}</ContentTitle>
-
-          <MainContent>
-            <DashboardCTX.Provider value={contextValue}>
-              <>{contentList[currentMenu.id]}</>
-            </DashboardCTX.Provider>
-          </MainContent>
-        </ContentBox>
-      </ContentSection>
-    </Container>
+        <MainContent>
+          <DashboardCTX.Provider value={contextValue}>
+            <>{contentList[currentMenu.id]}</>
+          </DashboardCTX.Provider>
+        </MainContent>
+      </ContentBox>
+    </>
   );
 }
 
